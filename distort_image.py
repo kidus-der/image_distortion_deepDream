@@ -41,6 +41,10 @@ def main():
 
     # load layers into array
     feature_nums = [int(graph.get_tensor_by_name(name +':0').get_shape()[-1]) for name in layers]
-    
+
+    # debugging print statements:
     print(f'Number of layers: {len(layers)}')
     print(f'Feature channels: {sum(feature_nums)}')
+    print(f'Feature numbers: {feature_nums}')
+
+main()
