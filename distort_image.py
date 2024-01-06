@@ -65,7 +65,7 @@ def main():
     
     #rename node identifiers
     def rename_nodes(graph_def, rename_func):
-        
+
         res_def = tf.GraphDef()
         for n_0 in graph_def.node:
             n = res_def.node.add()
@@ -74,3 +74,18 @@ def main():
             for i, s in enumerate(n.input):
                 n.input[i] = rename_func(s) if s[0]!='^' else '^'+rename_func(s[1:])
         return res_def
+    
+    def show_img(img):
+        
+        img = np.uint8(np.clip(img, 0, 1)*255)
+        plt.imshow(img)
+        plt.show()
+
+    def norm_visualization(img, s=0.1):
+
+        return (img - img.mean())/max(a.std(), 1e-4)*s + 0.5
+    
+    def output_tensor(layer):
+        return graph.get_tensor_by_name("import/%s:0"%layer)
+    
+    
