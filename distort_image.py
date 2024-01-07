@@ -88,4 +88,16 @@ def main():
     def output_tensor(layer):
         return graph.get_tensor_by_name("import/%s:0"%layer)
     
-    
+    def render(tens_object, img0=img_noise, n=20, t_step=1.0):
+
+        tensor_opt = tf.reduce_mean(tens_object)
+        tensor_gradient = tf.gradients(tensor_opt, tensor_input)[0]
+
+        img = img0.copy()
+
+        for i in range(n):
+            grad, i = session.run([tensor_gradient, tensor_opt], {tensor_input: img})
+            grad /= grad.std()+1e-8 #normalize the gradient
+            img += grad*t_step
+        
+        show_img(norm_visualization(img))
