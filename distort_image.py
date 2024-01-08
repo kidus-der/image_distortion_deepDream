@@ -77,13 +77,26 @@ def main():
     
     def show_img(img):
         
+        #display image
         img = np.uint8(np.clip(img, 0, 1)*255)
         plt.imshow(img)
         plt.show()
 
     def norm_visualization(img, s=0.1):
 
-        return (img - img.mean())/max(a.std(), 1e-4)*s + 0.5
+        '''normalize image for visualization purposes
+        img = np.uint8(np.clip(img, 0, 1)*255)
+        img = PIL.Image.fromarray(img)
+        img = img.resize((224, 224), PIL.Image.ANTIALIAS)
+        img = np.asarray(img, dtype=np.float32) / 255.0
+        img = np.expand_dims(img, 0)
+        img = img - img.mean()
+        img = img / max(img.std(), 1e-4) * s + 0.5
+        img = np.clip(img, 0, 1)
+        img = np.uint8(img*255)
+        return img'''
+        
+        return (img - img.mean())/max(img.std(), 1e-4)*s + 0.5
     
     def output_tensor(layer):
         return graph.get_tensor_by_name("import/%s:0"%layer)
